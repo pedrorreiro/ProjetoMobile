@@ -1,66 +1,76 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image, ImageBackground} from 'react-native';
-import {ProgressBar} from '@react-native-community/progress-bar-android';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TextInput, Image, ImageBackground } from 'react-native';
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 import Titulo from '../Titulo';
 import { TouchableOpacity } from 'react-native';
-import {useState} from 'react';
+import { useState } from 'react';
 
-export default function Cadastro(props) {
+export default function Cadastro({ navigation }) {
 
-  const [andamento, setAndamento] = useState(0.3);
+  const [andamento, setAndamento] = useState(0.33);
   const [nome, setNome] = useState("");
   const [nApart, setNapart] = useState("");
+  const [mostraCad1, setMostraCad1] = useState(true);
+  const [mostraCad2, setMostraCad2] = useState(false);
 
-    return (
-      <View style={{justifyContent: "center", flex: 1, flexDirection: "column",backgroundColor: cores.cinzaFundo}} // Não esquecer do flex 1
-      >
-        <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
+  return (
+    <View style={{ justifyContent: "center", flex: 1, flexDirection: "column", backgroundColor: cores.cinzaFundo }} // Não esquecer do flex 1
+    >
+      <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
 
-          <View style={{position: 'absolute', top: 0}}>
-            <Titulo/>
-            
-            <View style={estilo.campos}>
+        <View style={{ position: 'absolute', top: 0 }}>
+          <Titulo />
 
-              <TextInput // Campo de Nome Completo
-                style={estilo.campoCredenciais}
-                placeholder="Nome Completo"
-                placeholderTextColor={cores.brancoBaixo}
-                value={nome}
-                onChangeText={nome => {setNome(nome)}}
-                
-              >
-              </TextInput>
+          { mostraCad1 && <View style={estilo.cadastro} // Cadastro 1 
+          >
 
-              <TextInput // Campo de Nº Apartamento
-                keyboardType="numeric"
-                style={estilo.campoCredenciais}
-                placeholder="Nº do Apartamento"
-                placeholderTextColor={cores.brancoBaixo}
-                value={nApart}
-                onChangeText={numero => {setNapart(numero)}}
-                
-              >
-              </TextInput>
+            <TextInput // Campo de Nome Completo
+              style={estilo.campoCredenciais}
+              placeholder="Nome Completo"
+              placeholderTextColor={cores.brancoBaixo}
+              value={nome}
+              onChangeText={nome => {
+                setNome(nome)
+              }}
 
-            </View>
-            
-            <TouchableOpacity onPress={() => {
-              
-              props.navigation.navigate('Cadastro2', nome)
-            }} //Botao Next
-            style={estilo.botaoNext}>
-              <View><Image style={{height: 70, width: 70}} resizeMode='contain' source={require("../next_button.png")}/></View>
-              
-            </TouchableOpacity>
+            >
+            </TextInput>
 
-            <ProgressBar styleAttr="Horizontal" progress={andamento} indeterminate={false} color="white" />
+            <TextInput // Campo de Nº Apartamento
+              keyboardType="numeric"
+              style={estilo.campoCredenciais}
+              placeholder="Nº do Apartamento"
+              placeholderTextColor={cores.brancoBaixo}
+              value={nApart}
+              onChangeText={numero => {
+                setNapart(numero)
+              }}
 
-          </View>
-        </ImageBackground>
-        
-      </View>
-    );
-  }
+            >
+            </TextInput>
+
+          </View>}
+
+          <TouchableOpacity  //Botao Next
+            style={estilo.botaoNext}
+            onPress= {() => {
+              if(((nome!= '' || nome!= ' ') && nApart!= '')){
+                navigation.navigate('Cadastro2', {dados: {nome, nApart}})
+            } else console.log("NAO DEU BAO");
+
+            }}>
+            <View><Image style={{ height: 70, width: 70 }} resizeMode='contain' source={require("../next_button.png")} /></View>
+
+          </TouchableOpacity>
+
+          <ProgressBar styleAttr="Horizontal" progress={andamento} indeterminate={false} color="white" />
+
+        </View>
+      </ImageBackground>
+
+    </View>
+  );
+}
 
 
 const cores = {
@@ -76,10 +86,10 @@ const cores = {
 const estilo = {
 
   fundo: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"    
-      
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+
   },
 
   campoCredenciais: {
@@ -94,17 +104,18 @@ const estilo = {
     marginBottom: 20
   },
 
-  campos: {
+  cadastro: {
     marginTop: 77,
     alignItems: "center",
     flexGrow: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    display: "flex"
   },
 
   botaoNext: {
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: "3%"
-    
+
   }
 }

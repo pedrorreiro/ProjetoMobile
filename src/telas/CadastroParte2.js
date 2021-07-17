@@ -1,33 +1,36 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image, ImageBackground} from 'react-native';
-import {ProgressBar} from '@react-native-community/progress-bar-android';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TextInput, Image, ImageBackground } from 'react-native';
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 import Titulo from '../Titulo';
 import { TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import { TextInputMask } from 'react-native-masked-text'
-import {useState} from 'react';
 
-export default function Cadastro(props) {
+export default function CadastroParte2({ navigation }) {
 
-  //const {nome, nApart } = props.navigation.state.params.dados;
-
-  const [andamento, setAndamento] = useState(0.3);
+  const [andamento, setAndamento] = useState(0.66);
   const [data, setData] = useState('');
   const [telefone, setTelefone] = useState('');
 
-    return (
-      <View style={{justifyContent: "center", flex: 1, flexDirection: "column",backgroundColor: cores.cinzaFundo}} // Não esquecer do flex 1
-      >
-        <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
+  const {dados} = navigation.state.params;
 
-          <View style={{position: 'absolute', top: 0}}>
-            <Titulo/>
-            
-            <View style={estilo.campos}>
+  console.log("Nome: " + dados.nome);
+  console.log("Nº Apartamento:" + dados.nApart);
 
-            <View style={{justifyContent: "center", flexDirection: "row"}}>
+  return (
+    <View style={{ justifyContent: "center", flex: 1, flexDirection: "column", backgroundColor: cores.cinzaFundo }} // Não esquecer do flex 1
+    >
+      <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
+
+        <View style={{ position: 'absolute', top: 0 }}>
+          <Titulo />
+
+          <View style={estilo.campos}>
+
+            <View style={{ justifyContent: "center", flexDirection: "row" }}>
               <Text style={estilo.descricao}>Data de Nascimento</Text>
             </View>
-            
+
             <TextInputMask // Campo de data de nascimento
               style={estilo.campoCredenciais}
               placeholder={"DD/MM/YYYY"}
@@ -37,11 +40,11 @@ export default function Cadastro(props) {
                 format: "DD/MM/YYYY"
               }}
               value={data}
-              onChangeText={data => {setData(data)}}
+              onChangeText={data => { setData(data) }}
             />
 
-        
-            <View style={{justifyContent: "center", flexDirection: "row"}}>
+
+            <View style={{ justifyContent: "center", flexDirection: "row" }}>
               <Text style={estilo.descricao}>Telefone</Text>
             </View>
 
@@ -56,26 +59,31 @@ export default function Cadastro(props) {
                 dddMask: "(99) "
               }}
               value={telefone}
-              onChangeText={fone => {setTelefone(fone)}}
+              onChangeText={fone => { setTelefone(fone) }}
             />
-            
-
           </View>
-            
-            <TouchableOpacity //Botao Next
-            style={estilo.botaoNext}>
-              <View><Image style={{height: 70, width: 70}} resizeMode='contain' source={require("../next_button.png")}/></View>
-              
-            </TouchableOpacity>
 
-            <ProgressBar styleAttr="Horizontal" progress={andamento} indeterminate={false} color="white" />
+          <TouchableOpacity  //Botao Next
+            style={estilo.botaoNext}
+            onPress={() => {
+              if (data != '' && telefone != '') {
+                //navigation.navigate('Cadastro3', { dados: { nome, nApart } })
+                console.log("DEU BAO. Ta pronto pra mudar de tela!");
+              } else console.log("NAO DEU BAO");
 
-          </View>
-        </ImageBackground>
-        
-      </View>
-    );
-  }
+            }}>
+            <View><Image style={{ height: 70, width: 70 }} resizeMode='contain' source={require("../next_button.png")} /></View>
+
+          </TouchableOpacity>
+
+          <ProgressBar styleAttr="Horizontal" progress={andamento} indeterminate={false} color="white" />
+
+        </View>
+      </ImageBackground>
+
+    </View>
+  );
+}
 
 
 const cores = {
@@ -91,10 +99,10 @@ const cores = {
 const estilo = {
 
   fundo: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"    
-      
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+
   },
 
   campoCredenciais: {
@@ -128,6 +136,6 @@ const estilo = {
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: "3%"
-    
+
   }
 }

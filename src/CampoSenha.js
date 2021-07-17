@@ -1,69 +1,47 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Image} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TextInput, Image } from 'react-native';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 
-type Props = {};
-export default class CampoSenha extends Component<Props> {
+export default function CampoSenha(props) {
 
-  constructor(props){
-  super(props);
+  const [urlOlho, setUrlOlho] = useState(require('./eye.png'));
+  const [senhaSegura, setSenhaSegura] = useState(true);
 
-  this.state = {
-    urlOlho: './eye.png',
-    senhaSegura: true 
-  }
+  return (
 
-  this.retornaUrlOlho = this.retornaUrlOlho.bind(this);
+    <View style={estilo.container}>
 
-  }
+      <TextInput // Campo de Senha
+        secureTextEntry={senhaSegura}
+        style={estilo.campoCredenciais}
+        placeholder='Senha'
+        placeholderTextColor={cores.brancoBaixo}
+      />
 
-  mudaSenha = () => {
+      <TouchableOpacity style={estilo.areaOlho} onPress={() => {
+        if (senhaSegura) setSenhaSegura(false)
 
-    if(this.state.senhaSegura) this.setState({senhaSegura: false})
+        else setSenhaSegura(true);
 
-    else this.setState({senhaSegura: true});
+        if (urlOlho == require('./eye.png')) {
+          setUrlOlho(require('./eye2.png'))
+        }
 
-    if(this.state.urlOlho == './eye.png'){
-        this.setState({
-            urlOlho: './eye2.png'
-        });
-    }
+        else setUrlOlho(require('./eye.png'));
 
-    else this.setState({
-        urlOlho: './eye.png'
-    });
+      }}>
+        <Image resizeMode='contain' style={estilo.olho} source={urlOlho} />
+      </TouchableOpacity>
 
-  }
 
-  retornaUrlOlho = () => {
-    return this.state.urlOlho;
-  }
 
-  render() {
+    </View>
 
-    return (
-
-        <View style={estilo.container}>
-            
-                <TextInput // Campo de Senha
-                    secureTextEntry={this.state.senhaSegura}
-                    style={estilo.campoCredenciais}
-                    placeholder='Senha'
-                    placeholderTextColor={cores.brancoBaixo}                  
-                />
-
-                <TouchableOpacity style={estilo.areaOlho} onPress={this.mudaSenha}>                  
-                    <Image resizeMode='contain' style={estilo.olho} source={require("./eye.png")}/>
-                </TouchableOpacity>
-
-    
-
-        </View>
-        
-    );
-  }
+  );
 }
+
 
 const cores = {
   brancoBaixo: "rgba(255, 255, 255, 0.5)",
@@ -73,32 +51,31 @@ const cores = {
 
 const estilo = {
 
-    container: {
-        width: "80%",
-        backgroundColor: cores.pretoBaixo,
-        paddingRight: 10,
-        flexDirection: "row",
-        borderRadius: 4
-      },
+  container: {
+    width: "80%",
+    backgroundColor: cores.pretoBaixo,
+    paddingRight: 10,
+    flexDirection: "row",
+    borderRadius: 4
+  },
 
-    campoCredenciais: {
-        backgroundColor: cores.pretoBaixo,
-        color: "white",
-        borderRadius: 4,
-        paddingLeft: 20,
-        width: '90%'
-    },
+  campoCredenciais: {
+    color: "white",
+    borderRadius: 4,
+    paddingLeft: 20,
+    width: '90%'
+  },
 
-    areaOlho: {
-        marginTop: 8,
-        width: 25,
-        height: 25 
-    },
+  areaOlho: {
+    marginTop: 11,
+    width: 25,
+    height: 25
+  },
 
-    olho: {
-        height: 25, 
-        width: 25,
-        opacity: 0.8,
-        zIndex: 8
-    }
+  olho: {
+    height: 25,
+    width: 25,
+    opacity: 0.8,
+    zIndex: 8
+  }
 }

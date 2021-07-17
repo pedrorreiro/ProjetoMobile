@@ -1,6 +1,7 @@
 import Login from './src/telas/Login';
 import Cadastro from './src/telas/Cadastro';
-import Cadastro2 from './src/telas/CadastroParte2';
+import CadastroParte2 from './src/telas/CadastroParte2';
+import CadastroParte3 from './src/telas/CadastroParte3';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 const StackNavigator = createStackNavigator({
@@ -27,20 +28,32 @@ const StackNavigator = createStackNavigator({
     }
   },
   "Cadastro2": {
-    screen: Cadastro2,
+    screen: CadastroParte2,
     navigationOptions: ({navigation}) => {
-      const nome = navigation.state.params.nome;
-     // const dados = navigation.state.params.dados;
-     return({
-      title: nome, 
-      headerTitleStyle: {
-        color: 'white',
-        fontSize: 30,
-      },
-      headerTintColor: 'white'
-    })
+      return({
+        title: "", 
+        headerTitleStyle: {
+          color: 'white',
+          fontSize: 30,
+        },
+        headerTintColor: 'white'
+      })
     }
   },
+  "Cadastro3": {
+    screen: CadastroParte3,
+    navigationOptions: ({navigation}) => {
+      return({
+        title: "", 
+        headerTitleStyle: {
+          color: 'white',
+          fontSize: 30,
+        },
+        headerTintColor: 'white'
+      })
+    }
+  },
+
 }, {
   defaultNavigationOptions: {
 
