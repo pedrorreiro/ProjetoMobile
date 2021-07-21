@@ -55,6 +55,7 @@ export default function Cadastro({ navigation }) {
             style={estilo.botaoNext}
             onPress= {() => {
               if(((nome!= '' || nome!= ' ') && nApart!= '')){
+          
                 navigation.navigate('Cadastro2', {dados: {nome, nApart}})
             } else console.log("NAO DEU BAO");
 

@@ -4,7 +4,7 @@ import { ProgressBar } from '@react-native-community/progress-bar-android';
 import Titulo from '../Titulo';
 import { TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function CadastroParte2({ navigation }) {
 
@@ -14,8 +14,8 @@ export default function CadastroParte2({ navigation }) {
 
   const {dados} = navigation.state.params;
 
-  console.log("Nome: " + dados.nome);
-  console.log("Nº Apartamento:" + dados.nApart);
+  const [nome, setNome] = useState(dados.nome);
+  const [nApart, setNapart] = useState(dados.nApart);
 
   return (
     <View style={{ justifyContent: "center", flex: 1, flexDirection: "column", backgroundColor: cores.cinzaFundo }} // Não esquecer do flex 1
@@ -67,8 +67,11 @@ export default function CadastroParte2({ navigation }) {
             style={estilo.botaoNext}
             onPress={() => {
               if (data != '' && telefone != '') {
-                //navigation.navigate('Cadastro3', { dados: { nome, nApart } })
-                console.log("DEU BAO. Ta pronto pra mudar de tela!");
+                if(data.length == 10 && telefone.length == 15)
+
+                navigation.navigate('Cadastro3', {dados: {nome, nApart, data, telefone}})
+
+                
               } else console.log("NAO DEU BAO");
 
             }}>

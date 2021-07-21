@@ -6,66 +6,111 @@ import { TouchableOpacity } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text'
 import CampoSenha2 from '../CampoSenha2';
 import verificaSenhas from '../funcoes/verificaSenhas';
-import { useState } from 'react';
 
-export default function Cadastro({ navigation }) {
+export default class Cadastro extends Component {
 
-    //const {nome, nApart } = props.navigation.state.params.dados;
+    constructor(props){
+        super(props);
 
-    const [andamento, setAndamento] = useState(1);
-    const [senhaSegura, setSenhaSegura] = useState('');
-    const [senhaSegura2, setSenhaSegura2] = useState('');
-    const [usuario, setUsuario] = useState('');
-    const [senha, setSenha] = useState('');
-    const [senha2, setSenha2] = useState('');
+        dados = this.props.navigation.state.params.dados;
 
-    return (
-        <View style={{ justifyContent: "center", flex: 1, flexDirection: "column", backgroundColor: cores.cinzaFundo }} // Não esquecer do flex 1
-        >
-            <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
+        this.state = {
+            andamento: 1,
+            senhaSegura: '',
+            senhaSegura: '',
+            usuario: '',
+            senha: '',
+            senha2: '',
+            data: dados.data,
+            telefone: dados.telefone,
+            nome: dados.nome,
+            nApart: dados.nApart
+        };
+    }
 
-                <View style={{ position: 'absolute', top: 0 }}>
-                    <Titulo />
+    handleSenha = (senha) => {
+        this.setState({
+            senha: senha
+        })
+    }
 
-                    <View style={estilo.campos}>
+    handleSenha2 = (senha) => {
+        this.setState({
+            senha2: senha
+        })
+    }
 
-                        <TextInput // Campo de Usuário
-                            style={estilo.campoCredenciais}
-                            placeholder="Usuário"
-                            placeholderTextColor={cores.brancoBaixo}
-                            value={usuario}
-                            onChangeText={usuario => {
-                                setUsuario(usuario)
-                            }}
+    render(){
 
-                        >
-                        </TextInput>
+        return (
+            <View style={{ justifyContent: "center", flex: 1, flexDirection: "column", backgroundColor: cores.cinzaFundo }} // Não esquecer do flex 1
+            >
+                <ImageBackground source={require("../onda.png")} style={estilo.fundo}>
 
-                        <CampoSenha2 />
+                    <View style={{ position: 'absolute', top: 0 }}>
+                        <Titulo />
+
+                        <View style={estilo.campos}>
+
+                            <TextInput // Campo de Usuário
+                                style={estilo.campoCredenciais}
+                                placeholder="Usuário"
+                                placeholderTextColor={cores.brancoBaixo}
+                                value={this.state.usuario}
+                                onChangeText={usuario => {
+                                    this.setState({
+                                        usuario: usuario
+                                    })
+                                }}
+
+                            >
+                            </TextInput>
+
+                            <CampoSenha2 senha1={this.state.senha} 
+                            senha2={this.state.senha2} 
+                            handleSenha={this.handleSenha}
+                            handleSenha2={this.handleSenha2} />
 
 
+
+                        </View>
+
+                        <TouchableOpacity onPress={() => {  //Botao Termina
+                            if(this.state.usuario.length > 0){
+                                if (verificaSenhas(this.state.senha, this.state.senha2)){
+                                    user = this.state.usuario;
+                                    pass = this.state.senha;
+                                    
+                                    console.log("Conta criada com sucesso!");
+
+                                    console.log("Nome: " + this.state.nome);
+                                    console.log("Nº do Apartamento: " + this.state.nApart);
+                                    console.log("Data de Nascimento: " + data);
+                                    console.log("Telefone: " + this.state.telefone);
+                                    console.log("Usuário:" + user);
+                                    console.log("Senha:" + pass);
+                                }
+
+                                else console.log("As senhas não coicidem!");
+                            }
+                            
+                            
+
+                        }}
+                            style={estilo.botaoNext}>
+                            <View><Image style={{ height: 70, width: 70 }} resizeMode='contain' source={require("../v_button.png")} /></View>
+
+                        </TouchableOpacity>
+
+                        <ProgressBar styleAttr="Horizontal" progress={this.state.andamento} indeterminate={false} color="white" />
 
                     </View>
+                </ImageBackground>
 
-                    <TouchableOpacity onPress={() => {  //Botao Termina
-                        if (verificaSenhas) navigation.navigate('Main', { dados: { usuario, senha } })
-                        else console.log("As senhas não coicidem!");
-
-                    }}
-                        style={estilo.botaoNext}>
-                        <View><Image style={{ height: 70, width: 70 }} resizeMode='contain' source={require("../v_button.png")} /></View>
-
-                    </TouchableOpacity>
-
-                    <ProgressBar styleAttr="Horizontal" progress={andamento} indeterminate={false} color="white" />
-
-                </View>
-            </ImageBackground>
-
-        </View>
-    );
+            </View>
+        );
+    }
 }
-
 
 const cores = {
     brancoBaixo: "rgba(255, 255, 255, 0.5)",

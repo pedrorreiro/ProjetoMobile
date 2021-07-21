@@ -4,9 +4,10 @@ import axios from 'axios';
 import { TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 
-export default function CampoSenha2({ navigation }) {
+export default function CampoSenha2(props) {
 
     const [urlOlho, setUrlOlho] = useState(require('./eye.png'));
+    const [urlOlho2, setUrlOlho2] = useState(require('./eye.png'));
     const [senhaSegura, setSenhaSegura] = useState(true);
     const [senhaSegura2, setSenhaSegura2] = useState(true);
 
@@ -24,6 +25,9 @@ export default function CampoSenha2({ navigation }) {
                     style={estilo.campoCredenciais}
                     placeholder='Senha'
                     placeholderTextColor={cores.brancoBaixo}
+                    onChangeText={senha => {
+                        props.handleSenha(senha)
+                    }}
                 />
 
                 <TouchableOpacity style={estilo.areaOlho} onPress={() => {
@@ -51,6 +55,9 @@ export default function CampoSenha2({ navigation }) {
                     style={estilo.campoCredenciais}
                     placeholder='Confirme sua senha'
                     placeholderTextColor={cores.brancoBaixo}
+                    onChangeText={senha => {
+                        props.handleSenha2(senha)
+                    }}
                 />
 
                 <TouchableOpacity style={estilo.areaOlho} onPress={() => {
@@ -59,13 +66,13 @@ export default function CampoSenha2({ navigation }) {
 
                     else setSenhaSegura2(true);
 
-                    if (urlOlho == require('./eye.png'))
-                        setUrlOlho(require('./eye2.png'))
+                    if (urlOlho2 == require('./eye.png'))
+                        setUrlOlho2(require('./eye2.png'))
 
-                    else setUrlOlho(require('./eye.png'))
+                    else setUrlOlho2(require('./eye.png'))
 
                 }}>
-                    <Image resizeMode='contain' style={estilo.olho} source={urlOlho} />
+                    <Image resizeMode='contain' style={estilo.olho} source={urlOlho2} />
                 </TouchableOpacity>
 
             </View>
